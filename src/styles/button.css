@@ -1,0 +1,30 @@
+.big-button{
+    background: #8357c5;
+    border: none;
+    border-bottom: 0.6rem solid #6640a0;
+    color: white;
+    font-weight: bold;
+    font-size: 3.2rem;
+    margin-bottom: 4.8rem;
+    padding: 2.4rem;
+    width: 100%;
+}
+.big-button:disabled{
+    opacity: 0.5;
+}
+
+.button{
+    background: #8357c5;
+    border: none;
+    border-bottom: 0.3rem solid #6640a0;
+    color: white;
+    font-weight: 500;
+    padding: 1.2rem;
+}
+
+.button--link{
+    background: none;
+    border: none;
+    color: #a5afd7;
+    padding: 0;
+}
