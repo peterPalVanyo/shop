@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import AddOption from './components/AddOption';
 import Header from './components/Header';
 import Action from './components/Action';
@@ -64,10 +64,6 @@ class App extends React.Component {
         <div>
           <Header subtitle={subtitle} />
           <div className="container">
-            <Action
-                hasOptions={this.state.options.length > 0}
-                handlePick={this.handlePick}
-            />
             <div className="widget">
               <Options
                   options={this.state.options}
@@ -78,6 +74,10 @@ class App extends React.Component {
                   handleAddOption={this.handleAddOption}
               />
             </div>
+            <Action
+                hasOptions={this.state.options.length > 0}
+                handlePick={this.handlePick}
+            />
           </div>
         </div>
     );
