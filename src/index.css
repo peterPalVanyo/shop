@@ -6,7 +6,7 @@ body {
     background: #eceff1;
     background-image: url("./styles/background01.png");
     background-size: cover;
-    overflow: hidden;
+    background-attachment: fixed;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.6rem;
 }

@@ -10,6 +10,7 @@ const Options = (props) => {
                 <h3 className="widget-header__title">Your shop items:</h3>
                 <button
                     className="button button--link"
+                    style={{color: '#F2F0CC'}}
                     onClick={props.handleDeleteOptions}
                 >Remove All
                 </button>

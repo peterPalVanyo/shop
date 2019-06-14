@@ -1,11 +1,11 @@
 .option{
-    border-bottom: 1px solid #5d6277;
+    border-bottom: 1px solid #F2F0CC;
     display: flex;
     justify-content: space-between;
-    padding: 3.2rem 1.6rem;
+    padding: 1.6rem 1.6rem;
 }
 .option__text{
-    color: white;
+    color: #6C2933;
     font-weight: 500;
     font-size: 2rem;
     margin: 0;
