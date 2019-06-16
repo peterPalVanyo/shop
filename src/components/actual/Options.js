@@ -1,6 +1,6 @@
 import Option from "./Option";
 import React from "react";
-import '../styles/widget.css';
+import '../../styles/widget.css';
 
 
 const Options = (props) => {

@@ -1,11 +1,12 @@
 import React from 'react';
 // import './App.css';
-import AddOption from './components/AddOption';
+import AddOption from './components/actual/AddOption';
 import Header from './components/Header';
-import Action from './components/Action';
-import Options from './components/Options';
+import Action from './components/actual/Action';
+import Options from './components/actual/Options';
 import './styles/container.css';
 import './styles/widget.css';
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 class App extends React.Component {
   state = {
@@ -61,25 +62,33 @@ class App extends React.Component {
     const subtitle = 'Take that home....';
 
     return (
-        <div>
-          <Header subtitle={subtitle} />
-          <div className="container">
-            <div className="widget">
-              <Options
-                  options={this.state.options}
-                  handleDeleteOptions={this.handleDeleteOptions}
-                  handleDeleteOption={this.handleDeleteOption}
-              />
-              <AddOption
-                  handleAddOption={this.handleAddOption}
-              />
-            </div>
-            <Action
-                hasOptions={this.state.options.length > 0}
-                handlePick={this.handlePick}
-            />
+        <Router>
+          <div>
+            <Header subtitle={subtitle} />
+            <Route path="/actual" render={props => (
+                <React.Fragment>
+                  <div className="container">
+                    <div className="widget">
+                      <Options
+                          options={this.state.options}
+                          handleDeleteOptions={this.handleDeleteOptions}
+                          handleDeleteOption={this.handleDeleteOption}
+                      />
+                      <AddOption
+                          handleAddOption={this.handleAddOption}
+                      />
+                    </div>
+                    <Action
+                        hasOptions={this.state.options.length > 0}
+                        handlePick={this.handlePick}
+                    />
+                  </div>
+                </React.Fragment>
+            )} />
           </div>
-        </div>
+        </Router>
+
+
     );
   }
 }

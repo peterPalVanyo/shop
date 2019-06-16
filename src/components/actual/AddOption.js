@@ -1,6 +1,6 @@
 import React from "react";
-import '../styles/button.css';
-import '../styles/add-option.css';
+import '../../styles/button.css';
+import '../../styles/add-option.css';
 
 
 class AddOption extends React.Component {
