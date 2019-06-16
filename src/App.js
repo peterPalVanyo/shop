@@ -4,6 +4,7 @@ import AddOption from './components/actual/AddOption';
 import Header from './components/Header';
 import Action from './components/actual/Action';
 import Options from './components/actual/Options';
+import Welcome from './components/welcome/Welcome';
 import './styles/container.css';
 import './styles/widget.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
@@ -65,6 +66,16 @@ class App extends React.Component {
         <Router>
           <div>
             <Header subtitle={subtitle} />
+            {/*<Route exact path="/" component={Welcome} />*/}
+            <Route exact path="/" render={props => (
+                <React.Fragment>
+                  <div className="container">
+                    <div className="widget">
+                      <Welcome/>
+                    </div>
+                  </div>
+                </React.Fragment>
+            )}/>
             <Route path="/actual" render={props => (
                 <React.Fragment>
                   <div className="container">

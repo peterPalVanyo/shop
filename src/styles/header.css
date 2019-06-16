@@ -20,9 +20,9 @@
     margin: 0;
 }
 .header_img{
-    height: 150px;
+    height: 170px;
     padding: 0;
-    margin: 0;
+    margin: 0 0 -6rem 0;
 }
 
 .header_container{
