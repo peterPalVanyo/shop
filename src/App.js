@@ -1,5 +1,6 @@
 import React from 'react';
 // import './App.css';
+//codecool
 import AddOption from './components/actual/AddOption';
 import Header from './components/Header';
 import Action from './components/actual/Action';
@@ -11,7 +12,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 
 class App extends React.Component {
   state = {
-    options: []
+    options: ['thing one', 'thing two', 'thing three']
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
@@ -32,22 +33,22 @@ class App extends React.Component {
     } else if (this.state.options.indexOf(option) > -1) {
       return 'This option already exists';
     }
-
+    console.log(this.state.options);
     this.setState((prevState) => ({
       options: prevState.options.concat(option)
     }));
   };
   componentDidMount() {
-    try {
-      const json = localStorage.getItem('options');
-      const options = JSON.parse(json);
-
-      if (options) {
-        this.setState(() => ({ options }));
-      }
-    } catch (e) {
-      // Do nothing at all
-    }
+    // try {
+    //   const json = localStorage.getItem('options');
+    //   const options = JSON.parse(json);
+    //
+    //   if (options) {
+    //     this.setState(() => ({ options }));
+    //   }
+    // } catch (e) {
+    //   // Do nothing at all
+    // }
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.options.length !== this.state.options.length) {
@@ -98,8 +99,6 @@ class App extends React.Component {
             )} />
           </div>
         </Router>
-
-
     );
   }
 }
