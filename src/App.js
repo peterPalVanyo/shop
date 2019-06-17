@@ -24,11 +24,12 @@ class App extends React.Component {
       options: {lineItems: prevState.options.lineItems.filter((option) => optionToRemove !== option)}
     }));
   };
-  // handlePick = () => {
-  //   const randomNum = Math.floor(Math.random() * this.state.options.length);
-  //   const option = this.state.lineItems[randomNum];
-  //   alert(option);
-  // };
+  handlePick = () => {
+    const randomNum = Math.floor(Math.random() * this.state.options.lineItems.length);
+    console.log(this.state.options.lineItems.length);
+    const option = this.state.options.lineItems[randomNum].product.name;
+    alert(option);
+  };
   handleAddOption = (option) => {
     if (!option) {
       return 'Enter valid value to add item';
@@ -99,10 +100,10 @@ class App extends React.Component {
                           handleAddOption={this.handleAddOption}
                       />
                     </div>
-                    {/*<Action*/}
-                    {/*    hasOptions={this.state.options.length > 0}*/}
-                    {/*    handlePick={this.handlePick}*/}
-                    {/*/>*/}
+                    <Action
+                        hasOptions={this.state.options.lineItems.length > 0}
+                        handlePick={this.handlePick}
+                    />
                   </div>
                 </React.Fragment>
             )} />

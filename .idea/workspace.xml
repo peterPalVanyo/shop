@@ -4,8 +4,6 @@
     <list default="true" id="90eeaaf0-1355-493b-8dbd-67a7fd9cfe0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/actual/Option.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/actual/Option.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/actual/Options.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/actual/Options.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="41" column="22" lean-forward="true" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+            <state relative-caret-position="416">
+              <caret line="28" column="53" lean-forward="true" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
               <folding>
                 <element signature="e#50#104#0" expanded="true" />
               </folding>
@@ -298,11 +296,25 @@
       <option name="project" value="LOCAL" />
       <updated>1560803164486</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="delete option">
+      <created>1560804115944</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1560804115944</updated>
+    </task>
+    <task id="LOCAL-00011" summary="delete all">
+      <created>1560804762262</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1560804762262</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75101000" />
+    <option name="totallyTimeSpent" value="76113000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="32" width="1920" height="1048" extended-state="6" />
@@ -342,7 +354,9 @@
     <MESSAGE value="add actual subdirectory" />
     <MESSAGE value="set display of lineItems.product.name" />
     <MESSAGE value="handleaddoption without isExist check" />
-    <option name="LAST_COMMIT_MESSAGE" value="handleaddoption without isExist check" />
+    <MESSAGE value="delete option" />
+    <MESSAGE value="delete all" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete all" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/public/index.html">
@@ -492,8 +506,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="41" column="22" lean-forward="true" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+        <state relative-caret-position="416">
+          <caret line="28" column="53" lean-forward="true" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
           <folding>
             <element signature="e#50#104#0" expanded="true" />
           </folding>
