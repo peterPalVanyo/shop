@@ -15,7 +15,10 @@ class App extends React.Component {
     options:
         {lineItems:[
         { id: 1, product: { id: 0, name: 'towel'}, completed: false },
-        {  id: 2, product: { id: 1, name: 'ford'}, completed: false }]}
+        {  id: 2, product: { id: 1, name: 'ford'}, completed: false }]},
+      shops:[{ id: 1, name: 'FMCG', },
+          {  id: 2, name: 'Travel',},
+          {  id: 3, name: 'Food',  }]
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: { lineItems: []}}));
@@ -101,6 +104,15 @@ class App extends React.Component {
                       <Welcome/>
                     </div>
                   </div>
+                </React.Fragment>
+            )}/>
+            <Route path="/shops" render={props => (
+                <React.Fragment>
+                    <div className="container">
+                        <div className="widget">
+                            <h1>THIS IS the shops!!</h1>
+                        </div>
+                    </div>
                 </React.Fragment>
             )}/>
             <Route path="/actual" render={props => (

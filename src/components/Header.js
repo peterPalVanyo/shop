@@ -14,6 +14,8 @@ const Header = (props) => {
                         </div>
                 </div>
             <div style={ {overflow: 'auto'} }>
+                <Link style={ linkStyle } to="/shops">  Shops  </Link>
+                <div style={ linkStyle }>|</div>
                 <Link style={ linkStyle } to="/actual">  Actual  </Link>
                 <div style={ linkStyle }>|</div>
                 <Link style={ linkStyle } to="/" >Welcome  </Link>
