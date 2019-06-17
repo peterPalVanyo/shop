@@ -21,6 +21,7 @@ const Options = (props) => {
                     <Option
                         key={option.product.name}
                         optionText={option.product.name}
+                        optionObject={option}
                         count={index+1}
                         handleDeleteOption={props.handleDeleteOption}
                     />

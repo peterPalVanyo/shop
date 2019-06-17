@@ -20,9 +20,9 @@ class App extends React.Component {
     // this.setState(() => ({ options: []}));
   };
   handleDeleteOption = (optionToRemove) => {
-    // this.setState((prevState) => ({
-    //   options: prevState.options.filter((option) => optionToRemove !== option)
-    // }));
+    this.setState((prevState) => ({
+      options: {lineItems: prevState.options.lineItems.filter((option) => optionToRemove !== option)}
+    }));
   };
   // handlePick = () => {
   //   const randomNum = Math.floor(Math.random() * this.state.options.length);
@@ -41,12 +41,11 @@ class App extends React.Component {
       product: {id: 3, name: option},
       completed: false
     };
-    // this.setState((prevState) => ({
-    //   options: prevState.options.lineItems.concat(newLine)
-    // }));
-    console.log(newLine.product.name);
-    this.setState({options:
-          {lineItems: [...this.state.options.lineItems, newLine]}});
+    this.setState((prevState) => ({
+      options: {lineItems: prevState.options.lineItems.concat(newLine)}
+    }));
+    // this.setState({options:
+    //       {lineItems: [...this.state.options.lineItems, newLine]}});
   };
   componentDidMount() {
     // try {
