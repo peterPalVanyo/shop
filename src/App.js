@@ -17,7 +17,7 @@ class App extends React.Component {
         {  id: 2, product: { id: 1, name: 'ford'}, completed: false }]}
   };
   handleDeleteOptions = () => {
-    // this.setState(() => ({ options: []}));
+    this.setState(() => ({ options: { lineItems: []}}));
   };
   handleDeleteOption = (optionToRemove) => {
     this.setState((prevState) => ({
