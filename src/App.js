@@ -8,6 +8,7 @@ import Welcome from './components/welcome/Welcome';
 import './styles/container.css';
 import './styles/widget.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
+import {isTerminatorless} from "@babel/types";
 
 class App extends React.Component {
   state = {
@@ -34,9 +35,11 @@ class App extends React.Component {
     if (!option) {
       return 'Enter valid value to add item';
     }
-    // else if (this.state.options.lineItems.indexOf(option) > -1) {
-    //   return 'This option already exists';
-    // }
+    for (let i = 0; i < this.state.options.lineItems.length; i++ ){
+        if  (this.state.options.lineItems[i].product.name === option) {
+            return 'This option already exists';
+        }
+    }
     const newLine = {
       id: 1,
       product: {id: 3, name: option},
