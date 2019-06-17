@@ -8,7 +8,7 @@ import Welcome from './components/welcome/Welcome';
 import './styles/container.css';
 import './styles/widget.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import {isTerminatorless} from "@babel/types";
+import axios from 'axios';
 
 class App extends React.Component {
   state = {
@@ -45,13 +45,26 @@ class App extends React.Component {
       product: {id: 3, name: option},
       completed: false
     };
-    this.setState((prevState) => ({
-      options: {lineItems: prevState.options.lineItems.concat(newLine)}
-    }));
+
+      axios.post("http://localhost:8080/line-item/add", {
+          shoppingList: this.state.options,
+          quantity: 2,
+          product: {name: option}
+      }, {headers:{'Content-Type': 'application/json'}})
+          .then(res => this.setState((prevState) => ({
+              options: {lineItems: prevState.options.lineItems.concat(res.data)}}))
+          );
+
+    // this.setState((prevState) => ({
+    //   options: {lineItems: prevState.options.lineItems.concat(newLine)}}));
     // this.setState({options:
     //       {lineItems: [...this.state.options.lineItems, newLine]}});
   };
   componentDidMount() {
+      axios.get('http://localhost:8080/shopping-list/all')
+          .then(res => {
+              this.setState({ options: res.data });
+          });
     // try {
     //   const json = localStorage.getItem('options');
     //   const options = JSON.parse(json);
@@ -112,8 +125,6 @@ class App extends React.Component {
             )} />
           </div>
         </Router>
-
-
     );
   }
 }
