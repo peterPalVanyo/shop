@@ -11,7 +11,10 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 
 class App extends React.Component {
   state = {
-    options: []
+    options:
+        {lineItems:[
+        { id: 1, product: { id: 0, name: 'towel'}, completed: false },
+        {  id: 2, product: { id: 1, name: 'ford'}, completed: false }]}
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
@@ -38,25 +41,25 @@ class App extends React.Component {
     }));
   };
   componentDidMount() {
-    try {
-      const json = localStorage.getItem('options');
-      const options = JSON.parse(json);
-
-      if (options) {
-        this.setState(() => ({ options }));
-      }
-    } catch (e) {
-      // Do nothing at all
-    }
+    // try {
+    //   const json = localStorage.getItem('options');
+    //   const options = JSON.parse(json);
+    //
+    //   if (options) {
+    //     this.setState(() => ({ options }));
+    //   }
+    // } catch (e) {
+    //   // Do nothing at all
+    // }
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.options.length !== this.state.options.length) {
-      const json = JSON.stringify(this.state.options);
-      localStorage.setItem('options', json);
-    }
-  }
-  componentWillUnmount() {
-    console.log('componentWillUnmount');
+  //   if (prevState.options.length !== this.state.options.length) {
+  //     const json = JSON.stringify(this.state.options);
+  //     localStorage.setItem('options', json);
+  //   }
+  // }
+  // componentWillUnmount() {
+  //   console.log('componentWillUnmount');
   }
 
   render() {
@@ -81,7 +84,7 @@ class App extends React.Component {
                   <div className="container">
                     <div className="widget">
                       <Options
-                          options={this.state.options}
+                          options={this.state.options.lineItems}
                           handleDeleteOptions={this.handleDeleteOptions}
                           handleDeleteOption={this.handleDeleteOption}
                       />
