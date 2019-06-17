@@ -17,28 +17,36 @@ class App extends React.Component {
         {  id: 2, product: { id: 1, name: 'ford'}, completed: false }]}
   };
   handleDeleteOptions = () => {
-    this.setState(() => ({ options: [] }));
+    // this.setState(() => ({ options: []}));
   };
   handleDeleteOption = (optionToRemove) => {
-    this.setState((prevState) => ({
-      options: prevState.options.filter((option) => optionToRemove !== option)
-    }));
+    // this.setState((prevState) => ({
+    //   options: prevState.options.filter((option) => optionToRemove !== option)
+    // }));
   };
-  handlePick = () => {
-    const randomNum = Math.floor(Math.random() * this.state.options.length);
-    const option = this.state.options[randomNum];
-    alert(option);
-  };
+  // handlePick = () => {
+  //   const randomNum = Math.floor(Math.random() * this.state.options.length);
+  //   const option = this.state.lineItems[randomNum];
+  //   alert(option);
+  // };
   handleAddOption = (option) => {
     if (!option) {
       return 'Enter valid value to add item';
-    } else if (this.state.options.indexOf(option) > -1) {
-      return 'This option already exists';
     }
-
-    this.setState((prevState) => ({
-      options: prevState.options.concat(option)
-    }));
+    // else if (this.state.options.lineItems.indexOf(option) > -1) {
+    //   return 'This option already exists';
+    // }
+    const newLine = {
+      id: 1,
+      product: {id: 3, name: option},
+      completed: false
+    };
+    // this.setState((prevState) => ({
+    //   options: prevState.options.lineItems.concat(newLine)
+    // }));
+    console.log(newLine.product.name);
+    this.setState({options:
+          {lineItems: [...this.state.options.lineItems, newLine]}});
   };
   componentDidMount() {
     // try {
@@ -92,10 +100,10 @@ class App extends React.Component {
                           handleAddOption={this.handleAddOption}
                       />
                     </div>
-                    <Action
-                        hasOptions={this.state.options.length > 0}
-                        handlePick={this.handlePick}
-                    />
+                    {/*<Action*/}
+                    {/*    hasOptions={this.state.options.length > 0}*/}
+                    {/*    handlePick={this.handlePick}*/}
+                    {/*/>*/}
                   </div>
                 </React.Fragment>
             )} />
