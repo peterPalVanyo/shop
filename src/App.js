@@ -1,10 +1,12 @@
 import React from 'react';
 // import './App.css';
 import AddOption from './components/actual/AddOption';
+import AddShop from './components/shops/AddShop';
 import Header from './components/Header';
 import Action from './components/actual/Action';
 import Options from './components/actual/Options';
 import Welcome from './components/welcome/Welcome';
+import Shops from './components/shops/Shops';
 import './styles/container.css';
 import './styles/widget.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
@@ -43,11 +45,11 @@ class App extends React.Component {
             return 'This option already exists';
         }
     }
-    const newLine = {
-      id: 1,
-      product: {id: 3, name: option},
-      completed: false
-    };
+    // const newLine = {
+    //     id: 1,
+    //     product: {id: 3, name: option},
+    //     completed: false
+    // };
 
       axios.post("http://localhost:8080/line-item/add", {
           shoppingList: this.state.options,
@@ -63,11 +65,37 @@ class App extends React.Component {
     // this.setState({options:
     //       {lineItems: [...this.state.options.lineItems, newLine]}});
   };
+    handleAddShop = (name, address) => {
+        if (!name) {
+            return 'Enter valid value to add item';
+        }
+        for (let i = 0; i < this.state.shops.length; i++ ){
+            if  (this.state.shops[i].name === name) {
+                return 'This shop already exists';
+            }
+        }
+        axios.post("http://localhost:8080/shop/add", {
+            name: name,
+            address: address,
+            // openingHours: [],
+            tags: []
+        }, {headers:{'Content-Type': 'application/json'}})
+            .then(res => this.setState((prevState) => ({
+                shops: prevState.shops.concat(res.data)}))
+            );
+
+        // this.setState((prevState) => ({
+        //   options: {lineItems: prevState.options.lineItems.concat(newLine)}}));
+        // this.setState({options:
+        //       {lineItems: [...this.state.options.lineItems, newLine]}});
+    };
   componentDidMount() {
       axios.get('http://localhost:8080/shopping-list/all')
           .then(res => {
               this.setState({ options: res.data });
           });
+      axios.get('http://localhost:8080/shop/all')
+          .then(res => this.setState({ shops: res.data}));
     // try {
     //   const json = localStorage.getItem('options');
     //   const options = JSON.parse(json);
@@ -110,7 +138,14 @@ class App extends React.Component {
                 <React.Fragment>
                     <div className="container">
                         <div className="widget">
-                            <h1>THIS IS the shops!!</h1>
+                            <Shops
+                                shops={this.state.shops}
+                                handleDeleteOptions={this.handleDeleteOptions}
+                                handleDeleteOption={this.handleDeleteOption}
+                            />
+                            <AddShop
+                                handleAddOption={this.handleAddShop}
+                            />
                         </div>
                     </div>
                 </React.Fragment>
