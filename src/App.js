@@ -30,6 +30,14 @@ class App extends React.Component {
       options: {lineItems: prevState.options.lineItems.filter((option) => optionToRemove !== option)}
     }));
   };
+
+  handleDeleteShop = (shopToRemove) => {
+     this.setState((prevState) => ({
+         shops: prevState.shops.filter((shop) => shopToRemove !== shop)
+     }));
+  };
+
+
   handlePick = () => {
     const randomNum = Math.floor(Math.random() * this.state.options.lineItems.length);
     console.log(this.state.options.lineItems.length);
@@ -141,7 +149,7 @@ class App extends React.Component {
                             <Shops
                                 shops={this.state.shops}
                                 handleDeleteOptions={this.handleDeleteOptions}
-                                handleDeleteOption={this.handleDeleteOption}
+                                handleDeleteOption={this.handleDeleteShop}
                             />
                             <AddShop
                                 handleAddOption={this.handleAddShop}
