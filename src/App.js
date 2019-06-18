@@ -2,7 +2,7 @@ import React from 'react';
 // import './App.css';
 import AddOption from './components/actual/AddOption';
 import AddShop from './components/shops/AddShop';
-import Header from './components/Header';
+import Header from './components/header/Header';
 import Action from './components/actual/Action';
 import Options from './components/actual/Options';
 import Welcome from './components/welcome/Welcome';
@@ -11,6 +11,7 @@ import './styles/container.css';
 import './styles/widget.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import axios from 'axios';
+import MyModal from "./components/modal/MyModal";
 
 class App extends React.Component {
   state = {
@@ -18,9 +19,12 @@ class App extends React.Component {
         {lineItems:[
         { id: 1, product: { id: 0, name: 'towel'}, completed: false },
         {  id: 2, product: { id: 1, name: 'ford'}, completed: false }]},
-      shops:[{ id: 1, name: 'FMCG', },
-          {  id: 2, name: 'Travel',},
-          {  id: 3, name: 'Food',  }]
+    shops:[{ id: 1, name: 'FMCG', },
+      {  id: 2, name: 'Travel',},
+      {  id: 3, name: 'Food',  }],
+    user: null,
+    showModal: false,
+    modalType: null
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: { lineItems: []}}));
@@ -100,13 +104,32 @@ class App extends React.Component {
         // this.setState({options:
         //       {lineItems: [...this.state.options.lineItems, newLine]}});
     };
+    handleLogin = (userCredentials) => {
+      axios.post("http://localhost:8080/users/auth", userCredentials, { headers: {'Content-Type': 'application/json'}})
+          .then((response) => {
+              if(response.status <= 300) {
+                  this.setState({user: response.data});
+                  window.localStorage.setItem("user", JSON.stringify(response.data));
+                  this.setState({showModal: false});
+              }
+          })
+    };
+    showModal = (type) => {
+        this.setState({showModal: true});
+        this.setState({modalType: type});
+    };
+    hideModal = () => {
+        this.setState({showModal: false})
+    };
   componentDidMount() {
       axios.get('http://localhost:8080/shopping-list/all')
           .then(res => {
               this.setState({ options: res.data });
           });
-      axios.get('http://localhost:8080/shop/all')
+      axios.get('http://localhost:8080/shops')
           .then(res => this.setState({ shops: res.data}));
+      const user = window.localStorage.getItem("user");
+      if(user) this.setState({user: JSON.parse(user)});
     // try {
     //   const json = localStorage.getItem('options');
     //   const options = JSON.parse(json);
@@ -134,7 +157,10 @@ class App extends React.Component {
     return (
         <Router>
           <div>
-            <Header subtitle={subtitle} />
+            <Header
+                subtitle={subtitle}
+                user={this.state.user}
+                showModal={this.showModal}/>
             {/*<Route exact path="/" component={Welcome} />*/}
             <Route exact path="/" render={props => (
                 <React.Fragment>
@@ -181,6 +207,13 @@ class App extends React.Component {
                   </div>
                 </React.Fragment>
             )} />
+                <React.Fragment>
+                    <MyModal
+                        showModal={this.state.showModal}
+                        hideModal={this.hideModal}
+                        type={this.state.modalType}
+                        handleLogin={this.handleLogin}/>
+                </React.Fragment>
           </div>
         </Router>
     );

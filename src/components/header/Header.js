@@ -1,31 +1,30 @@
 import React from "react";
-import '../styles/header.css';
-import '../styles/container.css';
-import {Link} from 'react-router-dom';
+import StandardOptions from "./StandardOptions";
+import LogedinOptions from "./LogedinOptions";
+import '../../styles/header.css';
+import '../../styles/container.css';
 
 const Header = (props) => {
+    const options = props.user ? <LogedinOptions /> : <StandardOptions showModal={props.showModal} />;
+
     return (
         <div  className="header" >
                 <div className="header_container">
-                    <img className="header_img" src={require('../styles/ragacs.svg')} alt="something"/>
+                    <img className="header_img" src={require('../../styles/ragacs.svg')} alt="something"/>
                         <div style={{flexBasis: '30%'}}>
                             <h1 className="header__title">{props.title}</h1>
                             {props.subtitle && <h2 className="header__subtitle">{props.subtitle}</h2>}
                         </div>
                 </div>
-            <div style={ {overflow: 'auto'} }>
-                <Link style={ linkStyle } to="/shops">  Shops  </Link>
-                <div style={ linkStyle }>|</div>
-                <Link style={ linkStyle } to="/actual">  Actual  </Link>
-                <div style={ linkStyle }>|</div>
-                <Link style={ linkStyle } to="/" >Welcome  </Link>
-            </div>
+            <React.Fragment>
+                {options}
+            </React.Fragment>
         </div>
     );
 };
 
 Header.defaultProps = {
-    title: 'Darling'
+    title: 'Darling',
 };
 
 const linkStyle = {
