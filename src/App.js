@@ -36,6 +36,9 @@ class App extends React.Component {
          shops: prevState.shops.filter((shop) => shopToRemove !== shop)
      }));
   };
+  handleDeleteShops = () => {
+      this.setState(() => ({shops:[]}));
+  };
 
 
   handlePick = () => {
@@ -148,7 +151,7 @@ class App extends React.Component {
                         <div className="widget">
                             <Shops
                                 shops={this.state.shops}
-                                handleDeleteOptions={this.handleDeleteOptions}
+                                handleDeleteOptions={this.handleDeleteShops}
                                 handleDeleteOption={this.handleDeleteShop}
                             />
                             <AddShop

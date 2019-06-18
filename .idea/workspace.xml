@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90eeaaf0-1355-493b-8dbd-67a7fd9cfe0f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/shops/AddShop.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shops/Shop.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shops/Shops.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
     </list>
@@ -22,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-26">
-              <caret line="80" column="20" lean-forward="true" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
+            <state relative-caret-position="208">
+              <caret line="149" column="47" lean-forward="true" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
               <folding>
                 <element signature="e#50#104#0" expanded="true" />
               </folding>
@@ -400,11 +397,25 @@
       <option name="project" value="LOCAL" />
       <updated>1560809871278</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="add shop without openning hours">
+      <created>1560849808118</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1560849808118</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fake delete from shop">
+      <created>1560851521928</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1560851521928</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86585000" />
+    <option name="totallyTimeSpent" value="87705000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="32" width="1920" height="1048" extended-state="6" />
@@ -450,7 +461,9 @@
     <MESSAGE value="filter the already exist in add option" />
     <MESSAGE value="connection to the backend: didmount and add" />
     <MESSAGE value="shops page with link" />
-    <option name="LAST_COMMIT_MESSAGE" value="shops page with link" />
+    <MESSAGE value="add shop without openning hours" />
+    <MESSAGE value="fake delete from shop" />
+    <option name="LAST_COMMIT_MESSAGE" value="fake delete from shop" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/public/index.html">
@@ -630,8 +643,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-26">
-          <caret line="80" column="20" lean-forward="true" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
+        <state relative-caret-position="208">
+          <caret line="149" column="47" lean-forward="true" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
           <folding>
             <element signature="e#50#104#0" expanded="true" />
           </folding>
