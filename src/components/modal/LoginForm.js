@@ -11,10 +11,10 @@ const LoginForm = (props) => {
         props.handleLogin(loginCredentials);
     }
     return (
-        <form onSubmit={handleOnSubmit}>
-            <input name="username" placeholder="username" type="text"/>
-            <input name="password" placeholder="password" type="password"/>
-            <button type="submit">Login</button>
+        <form className="modal_form" onSubmit={handleOnSubmit}>
+            <input className="modal_input" name="username" placeholder="username" type="text"/>
+            <input className="modal_input" name="password" placeholder="password" type="password"/>
+            <button className="modal_button" type="submit">Login</button>
         </form>
     );
 };

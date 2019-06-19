@@ -7,7 +7,7 @@ const MyModal = (props) => {
     const errorMessage = props.isUserAuthFailed ? <p>Invalid username or password</p> : null;
     return (
         <Modal show={props.showModal} onHide={props.hideModal}>
-            <Modal.Header closeButton>
+            <Modal.Header className="modal_button" closeButton>
                 <Modal.Title>Modal heading</Modal.Title>
             </Modal.Header>
             <Modal.Body>
