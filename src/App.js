@@ -114,6 +114,10 @@ class App extends React.Component {
               }
           })
     };
+    handleLogout = () => {
+      this.setState({user: null});
+      window.localStorage.removeItem("user");
+    };
     showModal = (type) => {
         this.setState({showModal: true});
         this.setState({modalType: type});
@@ -160,7 +164,8 @@ class App extends React.Component {
             <Header
                 subtitle={subtitle}
                 user={this.state.user}
-                showModal={this.showModal}/>
+                showModal={this.showModal}
+                handleLogout={this.handleLogout}/>
             {/*<Route exact path="/" component={Welcome} />*/}
             <Route exact path="/" render={props => (
                 <React.Fragment>

@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom';
 const LogedinOptions = (props) => {
     return (
         <div style={ {overflow: 'auto'} }>
+            <Link style={ linkStyle } onClick={props.logout}>  Logout  </Link>
+            <div style={ linkStyle }>|</div>
             <Link style={ linkStyle } to="/shops">  Shops  </Link>
             <div style={ linkStyle }>|</div>
             <Link style={ linkStyle } to="/actual">  Actual  </Link>
