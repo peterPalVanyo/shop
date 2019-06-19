@@ -24,7 +24,8 @@ class App extends React.Component {
       {  id: 3, name: 'Food',  }],
     user: null,
     showModal: false,
-    modalType: null
+    modalType: null,
+    isUserAuthFailed: false
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: { lineItems: []}}));
@@ -111,8 +112,15 @@ class App extends React.Component {
                   this.setState({user: response.data});
                   window.localStorage.setItem("user", JSON.stringify(response.data));
                   this.setState({showModal: false});
+                  this.setState({isUserAuthFailed: false})
               }
           })
+          .catch((error) => {
+              if(error.response.status === 403) {
+                  this.setState({isUserAuthFailed: true});
+              }
+          })
+
     };
     handleLogout = () => {
       this.setState({user: null});
@@ -123,7 +131,8 @@ class App extends React.Component {
         this.setState({modalType: type});
     };
     hideModal = () => {
-        this.setState({showModal: false})
+        this.setState({showModal: false});
+        this.setState({isUserAuthFailed: false});
     };
   componentDidMount() {
       axios.get('http://localhost:8080/shopping-list/all')
@@ -217,7 +226,8 @@ class App extends React.Component {
                         showModal={this.state.showModal}
                         hideModal={this.hideModal}
                         type={this.state.modalType}
-                        handleLogin={this.handleLogin}/>
+                        handleLogin={this.handleLogin}
+                        isUserAuthFailed={this.state.isUserAuthFailed}/>
                 </React.Fragment>
           </div>
         </Router>
