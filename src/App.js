@@ -1,10 +1,7 @@
 import React from 'react';
 // import './App.css';
-import AddLineItem from './components/shopping-list/AddLineItem';
 import AddShop from './components/shops/AddShop';
 import Header from './components/header/Header';
-import Action from './components/shopping-list/Action';
-import LineItem from './components/shopping-list/LineItem';
 import Welcome from './components/welcome/Welcome';
 import Shops from './components/shops/Shops';
 import './styles/container.css';
@@ -16,8 +13,7 @@ import ShoppingList from "./components/shopping-list/ShoppingList";
 
 class App extends React.Component {
   state = {
-    latestShoppingList:
-        {lineItems: []},
+    latestShoppingList: null,
     shops:[],
     user: null,
     showModal: false,
@@ -220,18 +216,21 @@ class App extends React.Component {
                     </div>
                 </React.Fragment>
             )}/>
-            <Route path="/actual" render={props => (
-                <React.Fragment>
-                    <ShoppingList
-                        options={this.state.latestShoppingList.lineItems}
-                        handleDeleteOptions={this.handleDeleteOptions}
-                        handleDeleteOption={this.handleDeleteOption}
-                        handleAddOption={this.handleAddOption}
-                        hasOptions={this.state.latestShoppingList.lineItems.length > 0}
-                        handlePick={this.handlePick}
-                    />
-                </React.Fragment>
-            )} />
+            <Route path="/actual" render={() => {
+                const shoppingList = this.state.latestShoppingList ? <ShoppingList
+                    lineItems={this.state.latestShoppingList.lineItems}
+                    handleDeleteOptions={this.handleDeleteOptions}
+                    handleDeleteOption={this.handleDeleteOption}
+                    handleAddOption={this.handleAddOption}
+                    hasOptions={this.state.latestShoppingList.lineItems.length > 0}
+                    handlePick={this.handlePick}
+                /> : <p>You have not created any shopping lists yet</p>;
+                return (
+                    <React.Fragment>
+                        {shoppingList}
+                    </React.Fragment>
+                )
+            }} />
                 <React.Fragment>
                     <MyModal
                         showModal={this.state.showModal}

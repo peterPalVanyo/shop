@@ -6,14 +6,27 @@ import Action from "./Action";
 
 
 const ShoppingList = (props) => {
+    const lineItems = [];
+    for(const lineItem of props.lineItems) {
+        lineItems.push(<LineItem
+            lineItem={lineItem}
+            handleDeleteOptions={props.handleDeleteOptions}
+            handleDeleteOption={props.handleDeleteOption}
+        />)
+    }
     return (
         <div className="container">
             <div className="widget">
-                <LineItem
-                    options={props.options}
-                    handleDeleteOptions={props.handleDeleteOptions}
-                    handleDeleteOption={props.handleDeleteOption}
-                />
+                <div className="widget-header">
+                    <h3 className="widget-header__title">Your shop items:</h3>
+                    <button
+                        className="button button--link"
+                        style={{color: '#F2F0CC'}}
+                        onClick={props.handleDeleteOptions}>
+                        Remove All
+                    </button>
+                </div>
+                {lineItems}
                 <AddLineItem
                     handleAddOption={props.handleAddOption}
                 />
