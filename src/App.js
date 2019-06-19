@@ -15,13 +15,9 @@ import MyModal from "./components/modal/MyModal";
 
 class App extends React.Component {
   state = {
-    options:
-        {lineItems:[
-        { id: 1, product: { id: 0, name: 'towel'}, completed: false },
-        {  id: 2, product: { id: 1, name: 'ford'}, completed: false }]},
-    shops:[{ id: 1, name: 'FMCG', },
-      {  id: 2, name: 'Travel',},
-      {  id: 3, name: 'Food',  }],
+    latestShoppingList:
+        {lineItems: []},
+    shops:[],
     user: null,
     showModal: false,
     modalType: null,
@@ -29,11 +25,11 @@ class App extends React.Component {
     userModalErrorMessage: null,
   };
   handleDeleteOptions = () => {
-    this.setState(() => ({ options: { lineItems: []}}));
+    this.setState(() => ({ latestShoppingList: { lineItems: []}}));
   };
   handleDeleteOption = (optionToRemove) => {
     this.setState((prevState) => ({
-      options: {lineItems: prevState.options.lineItems.filter((option) => optionToRemove !== option)}
+      latestShoppingList: {lineItems: prevState.latestShoppingList.lineItems.filter((option) => optionToRemove !== option)}
     }));
   };
 
@@ -48,17 +44,17 @@ class App extends React.Component {
 
 
   handlePick = () => {
-    const randomNum = Math.floor(Math.random() * this.state.options.lineItems.length);
-    console.log(this.state.options.lineItems.length);
-    const option = this.state.options.lineItems[randomNum].product.name;
+    const randomNum = Math.floor(Math.random() * this.state.latestShoppingList.lineItems.length);
+    console.log(this.state.latestShoppingList.lineItems.length);
+    const option = this.state.latestShoppingList.lineItems[randomNum].product.name;
     alert(option);
   };
   handleAddOption = (option) => {
     if (!option) {
       return 'Enter valid value to add item';
     }
-    for (let i = 0; i < this.state.options.lineItems.length; i++ ){
-        if  (this.state.options.lineItems[i].product.name === option) {
+    for (let i = 0; i < this.state.latestShoppingList.lineItems.length; i++ ){
+        if  (this.state.latestShoppingList.lineItems[i].product.name === option) {
             return 'This option already exists';
         }
     }
@@ -69,18 +65,18 @@ class App extends React.Component {
     // };
 
       axios.post("http://localhost:8080/line-item/add", {
-          shoppingList: this.state.options,
+          shoppingList: this.state.latestShoppingList,
           quantity: 2,
           product: {name: option}
       }, {headers:{'Content-Type': 'application/json'}})
           .then(res => this.setState((prevState) => ({
-              options: {lineItems: prevState.options.lineItems.concat(res.data)}}))
+              latestShoppingList: {lineItems: prevState.latestShoppingList.lineItems.concat(res.data)}}))
           );
 
     // this.setState((prevState) => ({
-    //   options: {lineItems: prevState.options.lineItems.concat(newLine)}}));
-    // this.setState({options:
-    //       {lineItems: [...this.state.options.lineItems, newLine]}});
+    //   latestShoppingList: {lineItems: prevState.latestShoppingList.lineItems.concat(newLine)}}));
+    // this.setState({latestShoppingList:
+    //       {lineItems: [...this.state.latestShoppingList.lineItems, newLine]}});
   };
     handleAddShop = (name, address) => {
         if (!name) {
@@ -91,20 +87,23 @@ class App extends React.Component {
                 return 'This shop already exists';
             }
         }
-        axios.post("http://localhost:8080/shop/add", {
+        axios.post("http://localhost:8080/shops", {
             name: name,
             address: address,
             // openingHours: [],
             tags: []
-        }, {headers:{'Content-Type': 'application/json'}})
+        }, {headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.state.user.token}`
+        }})
             .then(res => this.setState((prevState) => ({
                 shops: prevState.shops.concat(res.data)}))
             );
 
         // this.setState((prevState) => ({
-        //   options: {lineItems: prevState.options.lineItems.concat(newLine)}}));
-        // this.setState({options:
-        //       {lineItems: [...this.state.options.lineItems, newLine]}});
+        //   latestShoppingList: {lineItems: prevState.latestShoppingList.lineItems.concat(newLine)}}));
+        // this.setState({latestShoppingList:
+        //       {lineItems: [...this.state.latestShoppingList.lineItems, newLine]}});
     };
     handleLogin = (userCredentials) => {
       axios.post("http://localhost:8080/users/auth", userCredentials, { headers: {'Content-Type': 'application/json'}})
@@ -148,30 +147,35 @@ class App extends React.Component {
         this.setState({userModalErrorMessage: message});
     };
 
-  componentDidMount() {
-      axios.get('http://localhost:8080/shopping-list/all')
-          .then(res => {
-              this.setState({ options: res.data });
-          });
-      axios.get('http://localhost:8080/shops')
-          .then(res => this.setState({ shops: res.data}));
-      const user = window.localStorage.getItem("user");
-      if(user) this.setState({user: JSON.parse(user)});
-    // try {
-    //   const json = localStorage.getItem('options');
-    //   const options = JSON.parse(json);
-    //
-    //   if (options) {
-    //     this.setState(() => ({ options }));
-    //   }
-    // } catch (e) {
-    //   // Do nothing at all
-    // }
-  }
-  componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.options.length !== this.state.options.length) {
-  //     const json = JSON.stringify(this.state.options);
-  //     localStorage.setItem('options', json);
+    componentDidMount() {
+        let user = window.localStorage.getItem("user");
+        if(user) {
+            user = JSON.parse(user);
+            this.setState({user: user})
+        }
+        axios.get(`http://localhost:8080/shopping-lists/latest/${user.id}`, {headers: {'Authorization': `Bearer ${user.token}`}})
+            .then(res => {
+                if(res.data) {
+                    this.setState({latestShoppingList: res.data});
+                }
+        });
+        axios.get('http://localhost:8080/shops', {headers: {'Authorization': `Bearer ${user.token}`}})
+            .then(res => this.setState({ shops: res.data}));
+        // try {
+        //   const json = localStorage.getItem('latestShoppingList');
+        //   const latestShoppingList = JSON.parse(json);
+        //
+        //   if (latestShoppingList) {
+        //     this.setState(() => ({ latestShoppingList }));
+        //   }
+        // } catch (e) {
+        //   // Do nothing at all
+        // }
+    }
+    componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.latestShoppingList.length !== this.state.latestShoppingList.length) {
+  //     const json = JSON.stringify(this.state.latestShoppingList);
+  //     localStorage.setItem('latestShoppingList', json);
   //   }
   // }
   // componentWillUnmount() {
@@ -220,7 +224,7 @@ class App extends React.Component {
                   <div className="container">
                     <div className="widget">
                       <Options
-                          options={this.state.options.lineItems}
+                          options={this.state.latestShoppingList.lineItems}
                           handleDeleteOptions={this.handleDeleteOptions}
                           handleDeleteOption={this.handleDeleteOption}
                       />
@@ -229,7 +233,7 @@ class App extends React.Component {
                       />
                     </div>
                     <Action
-                        hasOptions={this.state.options.lineItems.length > 0}
+                        hasOptions={this.state.latestShoppingList.lineItems.length > 0}
                         handlePick={this.handlePick}
                     />
                   </div>
