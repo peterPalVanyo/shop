@@ -25,7 +25,8 @@ class App extends React.Component {
     user: null,
     showModal: false,
     modalType: null,
-    isUserAuthFailed: false
+    isUserAuthFailed: false,
+    userModalErrorMessage: null,
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: { lineItems: []}}));
@@ -111,16 +112,25 @@ class App extends React.Component {
               if(response.status <= 300) {
                   this.setState({user: response.data});
                   window.localStorage.setItem("user", JSON.stringify(response.data));
-                  this.setState({showModal: false});
-                  this.setState({isUserAuthFailed: false})
+                  this.hideModal();
               }
           })
           .catch((error) => {
               if(error.response.status === 403) {
-                  this.setState({isUserAuthFailed: true});
+                  this.setState({userModalErrorMessage: "Invalid username or password"});
               }
           })
 
+    };
+    handleRegistration = (registrationCredentials) => {
+      axios.post("http://localhost:8080/users", registrationCredentials, { headers: {'Content-Type': 'application/json'}})
+          .then(() => {
+              alert("Successful registration");
+              this.hideModal()
+          })
+          .catch((error) => {
+              this.sendModalErrorMessage(error.response.data)
+          })
     };
     handleLogout = () => {
       this.setState({user: null});
@@ -132,8 +142,12 @@ class App extends React.Component {
     };
     hideModal = () => {
         this.setState({showModal: false});
-        this.setState({isUserAuthFailed: false});
+        this.setState({userModalErrorMessage: null});
     };
+    sendModalErrorMessage = (message) => {
+        this.setState({userModalErrorMessage: message});
+    };
+
   componentDidMount() {
       axios.get('http://localhost:8080/shopping-list/all')
           .then(res => {
@@ -227,7 +241,10 @@ class App extends React.Component {
                         hideModal={this.hideModal}
                         type={this.state.modalType}
                         handleLogin={this.handleLogin}
-                        isUserAuthFailed={this.state.isUserAuthFailed}/>
+                        handleRegistration={this.handleRegistration}
+                        isUserAuthFailed={this.state.isUserAuthFailed}
+                        errorMessageSender={this.sendModalErrorMessage}
+                        errorMessage={this.state.userModalErrorMessage}/>
                 </React.Fragment>
           </div>
         </Router>

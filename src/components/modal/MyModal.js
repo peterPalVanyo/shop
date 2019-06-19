@@ -2,18 +2,22 @@ import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import LoginForm from './LoginForm';
 import '../../styles/modal.css';
+import RegistrationForm from "./RegistrationForm";
 
 const MyModal = (props) => {
-    const errorMessage = props.isUserAuthFailed ? <p>Invalid username or password</p> : null;
+    const inputForm = props.type === "login" ? <LoginForm handleLogin={props.handleLogin}/> : <RegistrationForm errorMessageSender={props.errorMessageSender} handleRegistration={props.handleRegistration}/>;
+
     return (
         <Modal show={props.showModal} onHide={props.hideModal}>
             <Modal.Header className="modal_button" closeButton>
                 <Modal.Title>Modal heading</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {errorMessage}
+                <p>
+                    {props.errorMessage}
+                </p>
                 <React.Fragment>
-                    <LoginForm handleLogin={props.handleLogin}/>
+                    {inputForm}
                 </React.Fragment>
             </Modal.Body>
         </Modal>
