@@ -10,6 +10,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import axios from 'axios';
 import MyModal from "./components/modal/MyModal";
 import ShoppingList from "./components/shopping-list/ShoppingList";
+import NoShoppingList from "./components/shopping-list/NoShoppingList";
 
 class App extends React.Component {
   state = {
@@ -143,6 +144,16 @@ class App extends React.Component {
     sendModalErrorMessage = (message) => {
         this.setState({userModalErrorMessage: message});
     };
+    handleCreateShoppingList = (shoppingListCredentials) => {
+        axios.post('http://localhost:8080/shopping-lists', shoppingListCredentials, {headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.user.token}`
+            }})
+            .then(response => {
+                console.log(response.data);
+                this.setState({latestShoppingList: response.data})
+            })
+    }
 
     componentDidMount() {
         let user = window.localStorage.getItem("user");
@@ -153,6 +164,7 @@ class App extends React.Component {
         axios.get(`http://localhost:8080/shopping-lists/latest/${user.id}`, {headers: {'Authorization': `Bearer ${user.token}`}})
             .then(res => {
                 if(res.data) {
+                    console.log(res.data);
                     this.setState({latestShoppingList: res.data});
                 }
         });
@@ -224,7 +236,9 @@ class App extends React.Component {
                     handleAddOption={this.handleAddOption}
                     hasOptions={this.state.latestShoppingList.lineItems.length > 0}
                     handlePick={this.handlePick}
-                /> : <p>You have not created any shopping lists yet</p>;
+                /> : <NoShoppingList
+                    creationHandler={this.handleCreateShoppingList}
+                    user={this.state.user}/>;
                 return (
                     <React.Fragment>
                         {shoppingList}
