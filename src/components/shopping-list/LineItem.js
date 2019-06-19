@@ -1,9 +1,9 @@
-import Option from "./Option";
+import Product from "./Product";
 import React from "react";
 import '../../styles/widget.css';
 
 
-const Options = (props) => {
+const LineItem = (props) => {
     return (
         <div>
             <div className="widget-header">
@@ -18,7 +18,7 @@ const Options = (props) => {
             {props.options.length === 0 && <p className="widget__message">Please add some shoppin' to get started!</p>}
             {
                 props.options.map((option, index) => (
-                    <Option
+                    <Product
                         key={option.product.name}
                         optionText={option.product.name}
                         optionObject={option}
@@ -31,4 +31,4 @@ const Options = (props) => {
     );
 };
 
-export default Options;
+export default LineItem;

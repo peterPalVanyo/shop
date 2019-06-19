@@ -3,7 +3,7 @@ import '../../styles/button.css';
 import '../../styles/add-option.css';
 
 
-class AddOption extends React.Component {
+class AddLineItem extends React.Component {
     state = {
         error: undefined
     };
@@ -32,4 +32,4 @@ class AddOption extends React.Component {
     }
 }
 
-export default AddOption;
+export default AddLineItem;

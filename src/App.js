@@ -1,10 +1,10 @@
 import React from 'react';
 // import './App.css';
-import AddOption from './components/actual/AddOption';
+import AddLineItem from './components/shopping-list/AddLineItem';
 import AddShop from './components/shops/AddShop';
 import Header from './components/header/Header';
-import Action from './components/actual/Action';
-import Options from './components/actual/Options';
+import Action from './components/shopping-list/Action';
+import LineItem from './components/shopping-list/LineItem';
 import Welcome from './components/welcome/Welcome';
 import Shops from './components/shops/Shops';
 import './styles/container.css';
@@ -12,6 +12,7 @@ import './styles/widget.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import axios from 'axios';
 import MyModal from "./components/modal/MyModal";
+import ShoppingList from "./components/shopping-list/ShoppingList";
 
 class App extends React.Component {
   state = {
@@ -221,22 +222,14 @@ class App extends React.Component {
             )}/>
             <Route path="/actual" render={props => (
                 <React.Fragment>
-                  <div className="container">
-                    <div className="widget">
-                      <Options
-                          options={this.state.latestShoppingList.lineItems}
-                          handleDeleteOptions={this.handleDeleteOptions}
-                          handleDeleteOption={this.handleDeleteOption}
-                      />
-                      <AddOption
-                          handleAddOption={this.handleAddOption}
-                      />
-                    </div>
-                    <Action
+                    <ShoppingList
+                        options={this.state.latestShoppingList.lineItems}
+                        handleDeleteOptions={this.handleDeleteOptions}
+                        handleDeleteOption={this.handleDeleteOption}
+                        handleAddOption={this.handleAddOption}
                         hasOptions={this.state.latestShoppingList.lineItems.length > 0}
                         handlePick={this.handlePick}
                     />
-                  </div>
                 </React.Fragment>
             )} />
                 <React.Fragment>
