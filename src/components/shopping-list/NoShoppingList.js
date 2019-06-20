@@ -7,8 +7,7 @@ const NoShoppingList = (props) => {
         e.preventDefault();
         const loginCredentials = {
             memberId: props.user.id,
-            groupId: 33
-        }
+        };
         props.creationHandler(loginCredentials)
     }
     return (

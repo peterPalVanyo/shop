@@ -16,6 +16,7 @@ class App extends React.Component {
   state = {
     latestShoppingList: null,
     shops:[],
+    selectedGroupId: null,
     user: null,
     showModal: false,
     modalType: null,
@@ -108,6 +109,8 @@ class App extends React.Component {
           .then((response) => {
               if(response.status <= 300) {
                   this.setState({user: response.data});
+                  console.log(response.data);
+                  this.setState({selectedGroupId: response.data.groups[0].id});
                   window.localStorage.setItem("user", JSON.stringify(response.data));
                   this.hideModal();
               }
@@ -145,31 +148,46 @@ class App extends React.Component {
         this.setState({userModalErrorMessage: message});
     };
     handleCreateShoppingList = (shoppingListCredentials) => {
+        shoppingListCredentials.groupId = this.state.selectedGroupId;
         axios.post('http://localhost:8080/shopping-lists', shoppingListCredentials, {headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.state.user.token}`
             }})
             .then(response => {
-                console.log(response.data);
                 this.setState({latestShoppingList: response.data})
             })
-    }
+    };
+    handleSelectorChange = (changedState) => {
+        this.setState(changedState);
+        axios.get(`http://localhost:8080/shopping-lists/latest-by-group/${changedState.selectedGroupId}`, {headers: {'Authorization': `Bearer ${this.state.user.token}`}})
+            .then(res => {
+                if(res.data) {
+                    this.setState({latestShoppingList: res.data});
+                }
+            })
+            .catch(() => {
+                this.setState({latestShoppingList: null})
+            });
+    };
+    selectedGroup = () => {
+      return this.state.user.groups.filter(group =>  group.id === this.state.selectedGroupId)[0];
+    };
 
     componentDidMount() {
         let user = window.localStorage.getItem("user");
         if(user) {
             user = JSON.parse(user);
-            this.setState({user: user})
+            this.setState({user: user});
+            axios.get(`http://localhost:8080/shopping-lists/latest/${user.id}`, {headers: {'Authorization': `Bearer ${user.token}`}})
+                .then(res => {
+                    if(res.data) {
+                        this.setState({selectedGroupId: res.data.groupId});
+                        this.setState({latestShoppingList: res.data});
+                    }
+                });
+            axios.get('http://localhost:8080/shops', {headers: {'Authorization': `Bearer ${user.token}`}})
+                .then(res => this.setState({ shops: res.data}));
         }
-        axios.get(`http://localhost:8080/shopping-lists/latest/${user.id}`, {headers: {'Authorization': `Bearer ${user.token}`}})
-            .then(res => {
-                if(res.data) {
-                    console.log(res.data);
-                    this.setState({latestShoppingList: res.data});
-                }
-        });
-        axios.get('http://localhost:8080/shops', {headers: {'Authorization': `Bearer ${user.token}`}})
-            .then(res => this.setState({ shops: res.data}));
         // try {
         //   const json = localStorage.getItem('latestShoppingList');
         //   const latestShoppingList = JSON.parse(json);
@@ -201,7 +219,8 @@ class App extends React.Component {
                 subtitle={subtitle}
                 user={this.state.user}
                 showModal={this.showModal}
-                handleLogout={this.handleLogout}/>
+                handleLogout={this.handleLogout}
+                handleSelectorChange={this.handleSelectorChange}/>
             {/*<Route exact path="/" component={Welcome} />*/}
             <Route exact path="/" render={props => (
                 <React.Fragment>
@@ -230,11 +249,12 @@ class App extends React.Component {
             )}/>
             <Route path="/actual" render={() => {
                 const shoppingList = this.state.latestShoppingList ? <ShoppingList
+                    groupName={this.selectedGroup().name}
                     lineItems={this.state.latestShoppingList.lineItems}
                     handleDeleteOptions={this.handleDeleteOptions}
                     handleDeleteOption={this.handleDeleteOption}
                     handleAddOption={this.handleAddOption}
-                    hasOptions={this.state.latestShoppingList.lineItems.length > 0}
+                    hasOptions={this.state.latestShoppingList.lineItems}
                     handlePick={this.handlePick}
                 /> : <NoShoppingList
                     creationHandler={this.handleCreateShoppingList}

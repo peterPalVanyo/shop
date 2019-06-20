@@ -5,7 +5,13 @@ import '../../styles/header.css';
 import '../../styles/container.css';
 
 const Header = (props) => {
-    const options = props.user ? <LogedinOptions logout={props.handleLogout} /> : <StandardOptions showModal={props.showModal} />;
+    const options = props.user ?
+        <LogedinOptions
+            selectorOptions={props.user.groups}
+            selectorChangeHandler={props.handleSelectorChange}
+            logout={props.handleLogout} /> :
+        <StandardOptions
+            showModal={props.showModal} />;
 
     return (
         <div  className="header" >
