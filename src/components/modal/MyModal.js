@@ -9,9 +9,11 @@ const MyModal = (props) => {
 
     return (
         <Modal show={props.showModal} onHide={props.hideModal}>
-            <Modal.Header className="modal_button" closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
+            <div >
+                <Modal.Header className="modal_header" closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+            </div>
             <Modal.Body>
                 <p>
                     {props.errorMessage}

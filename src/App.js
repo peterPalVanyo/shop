@@ -152,15 +152,17 @@ class App extends React.Component {
         if(user) {
             user = JSON.parse(user);
             this.setState({user: user})
+            axios.get(`http://localhost:8080/shopping-lists/latest/${user.id}`, {headers: {'Authorization': `Bearer ${user.token}`}})
+                .then(res => {
+                    if(res.data) {
+                        this.setState({latestShoppingList: res.data});
+                    }
+                });
+            axios.get('http://localhost:8080/shops', {headers: {'Authorization': `Bearer ${user.token}`}})
+                .then(res => this.setState({ shops: res.data}));
         }
-        axios.get(`http://localhost:8080/shopping-lists/latest/${user.id}`, {headers: {'Authorization': `Bearer ${user.token}`}})
-            .then(res => {
-                if(res.data) {
-                    this.setState({latestShoppingList: res.data});
-                }
-        });
-        axios.get('http://localhost:8080/shops', {headers: {'Authorization': `Bearer ${user.token}`}})
-            .then(res => this.setState({ shops: res.data}));
+
+
         // try {
         //   const json = localStorage.getItem('latestShoppingList');
         //   const latestShoppingList = JSON.parse(json);

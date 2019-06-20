@@ -25,9 +25,29 @@
     font-size: 2rem;
 }
 
-.modal_button{
+.modal_input_reg{
+    background: #B1B3B5;
+    border: none;
+    color: #5f1724;
+    border-bottom: 0.3rem solid #767779;
+    flex-grow: 1;
+    margin-right: 1.2rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    font-size: 2rem;
+}
+
+.modal_button, button {
     background: #D75265;
     border: none;
+    border-bottom: 0.3rem solid #a13e4c;
+    color: #F2F0CC;
+    font-weight: 500;
+    padding: 1.2rem;
+}
+
+#modal_button {
+    background: #D75265;
     border-bottom: 0.3rem solid #a13e4c;
     color: #F2F0CC;
     font-weight: 500;
@@ -43,3 +63,38 @@
     margin-bottom: 3.2rem;
     box-shadow: 7px 10px 12px -5px rgba(0,0,0,0.56);
 }
+
+.modal_form_reg{
+    border-bottom: 1px solid #F2F0CC;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1.6rem 1.6rem;
+    background: white;
+    margin-bottom: 3.2rem;
+    box-shadow: 7px 10px 12px -5px rgba(0,0,0,0.56);
+}
+
+.modal_wrap{
+    background: #D75265;
+    color: #F2F0CC;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.6rem;
+}
+
+.modal_header{
+    background: #D75265;
+    color: #F2F0CC;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.6rem;
+}
+
+button {
+    background: none;
+    border: none;
+    color: #6C2933;
+    padding: 0;
+}
+
