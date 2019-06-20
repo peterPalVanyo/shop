@@ -1,10 +1,7 @@
 import React from 'react';
 // import './App.css';
-import AddOption from './components/actual/AddOption';
 import AddShop from './components/shops/AddShop';
 import Header from './components/header/Header';
-import Action from './components/actual/Action';
-import Options from './components/actual/Options';
 import Welcome from './components/welcome/Welcome';
 import Shops from './components/shops/Shops';
 import './styles/container.css';
@@ -12,12 +9,14 @@ import './styles/widget.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import axios from 'axios';
 import MyModal from "./components/modal/MyModal";
+import ShoppingList from "./components/shopping-list/ShoppingList";
+import NoShoppingList from "./components/shopping-list/NoShoppingList";
 
 class App extends React.Component {
   state = {
-    latestShoppingList:
-        {lineItems: []},
+    latestShoppingList: null,
     shops:[],
+    selectedGroupId: null,
     user: null,
     showModal: false,
     modalType: null,
@@ -110,6 +109,8 @@ class App extends React.Component {
           .then((response) => {
               if(response.status <= 300) {
                   this.setState({user: response.data});
+                  console.log(response.data);
+                  this.setState({selectedGroupId: response.data.groups[0].id});
                   window.localStorage.setItem("user", JSON.stringify(response.data));
                   this.hideModal();
               }
@@ -146,23 +147,47 @@ class App extends React.Component {
     sendModalErrorMessage = (message) => {
         this.setState({userModalErrorMessage: message});
     };
+    handleCreateShoppingList = (shoppingListCredentials) => {
+        shoppingListCredentials.groupId = this.state.selectedGroupId;
+        axios.post('http://localhost:8080/shopping-lists', shoppingListCredentials, {headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.user.token}`
+            }})
+            .then(response => {
+                this.setState({latestShoppingList: response.data})
+            })
+    };
+    handleSelectorChange = (changedState) => {
+        this.setState(changedState);
+        axios.get(`http://localhost:8080/shopping-lists/latest-by-group/${changedState.selectedGroupId}`, {headers: {'Authorization': `Bearer ${this.state.user.token}`}})
+            .then(res => {
+                if(res.data) {
+                    this.setState({latestShoppingList: res.data});
+                }
+            })
+            .catch(() => {
+                this.setState({latestShoppingList: null})
+            });
+    };
+    selectedGroup = () => {
+      return this.state.user.groups.filter(group =>  group.id === this.state.selectedGroupId)[0];
+    };
 
     componentDidMount() {
         let user = window.localStorage.getItem("user");
         if(user) {
             user = JSON.parse(user);
-            this.setState({user: user})
+            this.setState({user: user});
             axios.get(`http://localhost:8080/shopping-lists/latest/${user.id}`, {headers: {'Authorization': `Bearer ${user.token}`}})
                 .then(res => {
                     if(res.data) {
+                        this.setState({selectedGroupId: res.data.groupId});
                         this.setState({latestShoppingList: res.data});
                     }
                 });
             axios.get('http://localhost:8080/shops', {headers: {'Authorization': `Bearer ${user.token}`}})
                 .then(res => this.setState({ shops: res.data}));
         }
-
-
         // try {
         //   const json = localStorage.getItem('latestShoppingList');
         //   const latestShoppingList = JSON.parse(json);
@@ -194,7 +219,8 @@ class App extends React.Component {
                 subtitle={subtitle}
                 user={this.state.user}
                 showModal={this.showModal}
-                handleLogout={this.handleLogout}/>
+                handleLogout={this.handleLogout}
+                handleSelectorChange={this.handleSelectorChange}/>
             {/*<Route exact path="/" component={Welcome} />*/}
             <Route exact path="/" render={props => (
                 <React.Fragment>
@@ -221,26 +247,24 @@ class App extends React.Component {
                     </div>
                 </React.Fragment>
             )}/>
-            <Route path="/actual" render={props => (
-                <React.Fragment>
-                  <div className="container">
-                    <div className="widget">
-                      <Options
-                          options={this.state.latestShoppingList.lineItems}
-                          handleDeleteOptions={this.handleDeleteOptions}
-                          handleDeleteOption={this.handleDeleteOption}
-                      />
-                      <AddOption
-                          handleAddOption={this.handleAddOption}
-                      />
-                    </div>
-                    <Action
-                        hasOptions={this.state.latestShoppingList.lineItems.length > 0}
-                        handlePick={this.handlePick}
-                    />
-                  </div>
-                </React.Fragment>
-            )} />
+            <Route path="/actual" render={() => {
+                const shoppingList = this.state.latestShoppingList ? <ShoppingList
+                    groupName={this.selectedGroup().name}
+                    lineItems={this.state.latestShoppingList.lineItems}
+                    handleDeleteOptions={this.handleDeleteOptions}
+                    handleDeleteOption={this.handleDeleteOption}
+                    handleAddOption={this.handleAddOption}
+                    hasOptions={this.state.latestShoppingList.lineItems}
+                    handlePick={this.handlePick}
+                /> : <NoShoppingList
+                    creationHandler={this.handleCreateShoppingList}
+                    user={this.state.user}/>;
+                return (
+                    <React.Fragment>
+                        {shoppingList}
+                    </React.Fragment>
+                )
+            }} />
                 <React.Fragment>
                     <MyModal
                         showModal={this.state.showModal}

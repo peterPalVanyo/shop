@@ -3,7 +3,7 @@ import '../../styles/button.css';
 import '../../styles/option.css';
 
 
-const Option = (props) => {
+const Product = (props) => {
     return (
         <div className="option">
             <p className="option__text">{props.count}. {props.optionText}</p>
@@ -18,4 +18,4 @@ const Option = (props) => {
         </div>
     );
 };
-export default Option;
+export default Product;
